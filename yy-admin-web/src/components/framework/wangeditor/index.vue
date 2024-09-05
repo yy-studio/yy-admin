@@ -55,7 +55,7 @@ let props = defineProps({
 watch(
   () => props.modelValue,
   (nVal) => {
-    console.log(nVal);
+    // console.log(nVal);
     editorHtml.value = nVal;
   },
   {
