@@ -1,6 +1,7 @@
 package com.yystudio.admin.config;
 
 import com.yystudio.admin.interceptor.AdminInterceptor;
+import com.yystudio.admin.interceptor.AppInterceptor;
 import com.yystudio.base.config.SwaggerConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,13 +25,19 @@ public class MvcConfig implements WebMvcConfigurer {
     @Resource
     private AdminInterceptor adminInterceptor;
 
+    @Resource
+    private AppInterceptor appInterceptor;
 
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminInterceptor)
                 .excludePathPatterns(SwaggerConfig.SWAGGER_WHITELIST)
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/app/**");
+
+        registry.addInterceptor(appInterceptor)
+                .addPathPatterns("/app/**");
     }
 
     @Override

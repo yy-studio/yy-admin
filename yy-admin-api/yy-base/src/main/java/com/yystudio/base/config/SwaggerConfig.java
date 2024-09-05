@@ -43,7 +43,7 @@ public class SwaggerConfig {
     /**
      * 用于解决/swagger-ui/index.html页面ServersUrl 测试环境部署错误问题
      */
-    @Value("${springdoc.swagger-ui.server-base-url:''}")
+//    @Value("${springdoc.swagger-ui.server-base-url:''}")
     private String serverBaseUrl;
 
     public static final String[] SWAGGER_WHITELIST = {

@@ -23,5 +23,12 @@ public class RedisKeyConst {
 
         public static final String CAPTCHA = "captcha:";
 
+        public static final String SMS = "sms:";
+
+        public static final String SMS_REGISTER = "sms-register:";
+        public static final String EMAIL_REGISTER = "email-register:";
+
+        public static final String SMS_LOGIN = "sms-login:";
+
     }
 }

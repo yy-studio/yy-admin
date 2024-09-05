@@ -16,7 +16,7 @@ public class SmartVerificationUtil {
     /**
      * 手机号码验证规则
      */
-    public static final String PHONE_REGEXP = "^1[0-9]{10}";
+    public static final String PHONE_REGEXP = "^$|^1[0-9]{10}";
 
     /**
      * 固定号码验证规则
@@ -78,7 +78,7 @@ public class SmartVerificationUtil {
     /**
      * 邮箱
      */
-    public static final String EMAIL = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+    public static final String EMAIL = "^$|[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
 
     /**
      * 整数

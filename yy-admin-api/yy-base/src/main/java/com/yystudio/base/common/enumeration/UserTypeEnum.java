@@ -14,7 +14,11 @@ public enum UserTypeEnum implements BaseEnum {
     /**
      * 管理端 员工用户
      */
-    ADMIN_EMPLOYEE(1, "员工");
+    ADMIN_EMPLOYEE(1, "员工"),
+
+    USER_PERSONAL(2, "个人用户"),
+
+    USER_ENTERPRISE(3, "企业用户"),;
 
     private Integer type;
 

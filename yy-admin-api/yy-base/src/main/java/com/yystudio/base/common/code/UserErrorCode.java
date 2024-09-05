@@ -37,7 +37,19 @@ public enum UserErrorCode implements ErrorCode {
     LOGIN_FAIL_LOCK(30010, "登录连续失败已经被锁定，无法登录"),
     LOGIN_FAIL_WILL_LOCK(30011, "登录连续失败将会锁定提醒"),
 
-    LOGIN_ACTIVE_TIMEOUT(30012, "长时间未操作系统，需要重新登录");
+    LOGIN_ACTIVE_TIMEOUT(30012, "长时间未操作系统，需要重新登录"),
+
+
+    UPDATE_ERROR(30101, "更新失败"),
+    CODE_SEND_ERROR(30102, "验证码发送失败"),
+    CODE_VERIFY_ERROR(30103, "验证码验证失败"),
+    USER_NOT_EXIST(30104, "用户不存在"),
+    USER_UN_ACTIVE(30105, "用户未激活"),
+    PASSWORD_ERROR(30106, "用户名或密码错误"),
+    DEFAULT_PASSWORD_ERROR(30107, "初始密码登录，请修改密码"),
+    CODE_VERIFY_TIMEOUT_ERROR(30108, "验证码已失效，请重新获取"),
+    ;
+
 
     private final int code;
 
