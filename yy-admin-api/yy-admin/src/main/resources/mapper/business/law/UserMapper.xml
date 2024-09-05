@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yystudio.admin.module.business.law.dao.UserDao">
+
+    <!-- 分页查询 -->
+    <select id="queryPage" resultType="com.yystudio.admin.module.business.law.domain.vo.UserVO">
+        SELECT
+        *
+        FROM t_user
+        <where>
+            <!--关键字查询-->
+            <if test="queryForm.keywords != null and queryForm.keywords != ''">
+                AND ( INSTR(t_user.username,#{queryForm.keywords})
+                OR INSTR(t_user.mobile,#{queryForm.keywords})
+                OR INSTR(t_user.email,#{queryForm.keywords})
+                OR INSTR(t_user.real_name,#{queryForm.keywords})
+            )
+            </if>
+            <!--类型-->
+            <if test="queryForm.type != null">
+                AND t_user.type = #{queryForm.type}
+            </if>
+        </where>
+    </select>
+    <select id="getByLoginName" resultType="com.yystudio.admin.module.business.law.domain.entity.UserEntity">
+        SELECT *
+        FROM t_user
+        <where>
+            username = #{username}
+            <if test="userId != null">
+                AND id != #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="getByEmail" resultType="com.yystudio.admin.module.business.law.domain.entity.UserEntity">
+        SELECT *
+        FROM t_user
+        <where>
+            email = #{email}
+            <if test="userId != null">
+                AND id != #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="getByMobile" resultType="com.yystudio.admin.module.business.law.domain.entity.UserEntity">
+        SELECT *
+        FROM t_user
+        <where>
+            mobile = #{mobile}
+            <if test="userId != null">
+                AND id != #{userId}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUser" parameterType="com.yystudio.admin.module.business.law.domain.form.UserUpdateForm">
+        UPDATE t_user
+        <set>
+            <if test="form.username != null">username = #{form.username},</if>
+            <if test="form.mobile != null">mobile = #{form.mobile},</if>
+            <if test="form.email != null">email = #{form.email},</if>
+            <if test="form.realName != null">real_name = #{form.realName},</if>
+        </set>
+        WHERE id = #{form.id}
+    </update>
+    <update id="updateStatus">
+        UPDATE t_user
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+    <update id="updatePassword">
+        UPDATE t_user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
