@@ -165,6 +165,15 @@
 				"enablePullDownRefresh" : false,
 				"navigationBarBackgroundColor": "#fff"
 			}
+		},
+		{
+			"path" : "pages/law/login/login",
+			"style" : 
+			{
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {
@@ -184,11 +193,17 @@
 			"selectedIconPath": "static/images/tabbar/home-icon-h.png",
 			"text": "首页"
 		},
+		// {
+		//   "pagePath": "pages/list/list",
+		//   "iconPath": "static/images/tabbar/list-icon.png",
+		//   "selectedIconPath": "static/images/tabbar/list-icon-h.png",
+		//   "text": "常见列表1"
+		// },
 		{
-		  "pagePath": "pages/list/list",
+		  "pagePath": "pages/law/login/login",
 		  "iconPath": "static/images/tabbar/list-icon.png",
 		  "selectedIconPath": "static/images/tabbar/list-icon-h.png",
-		  "text": "常见列表1"
+		  "text": "登录页"
 		},
 		{
 		  "pagePath": "pages/list2/list",

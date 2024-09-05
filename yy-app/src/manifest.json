@@ -1,8 +1,8 @@
 {
-    "name" : "yy-app",
-    "appid" : "",
-    "description" : "",
-    "versionName" : "1.0.0",
+    "name" : "建工普法",
+    "appid" : "__UNI__6B76506",
+    "description" : "建工相关法律知识普及",
+    "versionName" : "0.0.1",
     "versionCode" : "100",
     "transformPx" : false,
     /* 5+App特有相关 */
@@ -17,7 +17,9 @@
             "delay" : 0
         },
         /* 模块配置 */
-        "modules" : {},
+        "modules" : {
+            "Push" : {}
+        },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -43,7 +45,41 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "payment" : {
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
+                    },
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "",
+                        "UniversalLinks" : ""
+                    }
+                },
+                "push" : {
+                    "unipush" : {
+                        "version" : "2",
+                        "offline" : true,
+                        "hms" : {},
+                        "oppo" : {},
+                        "vivo" : {},
+                        "mi" : {},
+                        "meizu" : {},
+                        "honor" : {},
+                        "fcm" : {}
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "",
+                        "UniversalLinks" : ""
+                    }
+                }
+            },
+            "splashscreen" : {
+                "iosStyle" : "common",
+                "useOriginalMsgbox" : true
+            }
         }
     },
     /* 快应用特有相关 */
@@ -65,8 +101,10 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics": {  
-        "enable": false
+    "uniStatistics" : {
+        "enable" : false
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "locale" : "zh-Hans",
+    "fallbackLocale" : "zh-Hans"
 }
