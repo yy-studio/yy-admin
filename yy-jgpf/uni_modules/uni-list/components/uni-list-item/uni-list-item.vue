@@ -12,7 +12,7 @@
 				<slot name="header">
 					<view class="uni-list-item__header">
 						<view v-if="thumb" class="uni-list-item__icon">
-							<image :src="thumb" class="uni-list-item__icon-img" :class="['uni-list--' + thumbSize]" />
+							<cache-img mode="aspectFill" :imgSrc="thumb" class="uni-list-item__icon-img" :class="['uni-list--' + thumbSize]" />
 						</view>
 						<view v-else-if="showExtraIcon" class="uni-list-item__icon">
 							<uni-icons :customPrefix="extraIcon.customPrefix" :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" />
@@ -180,7 +180,7 @@
 				type: Object,
 				default () {
 					return {
-						padding: '',
+						padding: '12rpx 20rpx',
 						backgroundColor: '#FFFFFF'
 					}
 				}
@@ -326,7 +326,7 @@
 	$uni-spacing-row-lg: 15px;
 	$uni-img-size-sm:20px;
 	$uni-img-size-base:26px;
-	$uni-img-size-lg:40px;
+	$uni-img-size-lg:48px;
 	$uni-border-color:#e5e5e5;
 	$uni-bg-color-hover:#f1f1f1;
 	$uni-text-color-grey:#999;

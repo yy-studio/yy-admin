@@ -34,12 +34,14 @@ public class SmsService {
 
     private SendSmsResponse sendSms(SendSmsRequest sendSmsRequest) {
 
+        String accessKeyId = System.getenv("YY_ALIBABA_CLOUD_ACCESS_KEY_ID");
+        String accessKeySecret = System.getenv("YY_ALIBABA_CLOUD_ACCESS_KEY_SECRET");
         // Configure Credentials authentication information, including ak, secret, token
         StaticCredentialProvider provider = StaticCredentialProvider.create(Credential.builder()
                 // Please ensure that the environment variables ALIBABA_CLOUD_ACCESS_KEY_ID and
                 // ALIBABA_CLOUD_ACCESS_KEY_SECRET are set.
-                .accessKeyId(SmsConst.ACCESS_KEY_ID)
-                .accessKeySecret(SmsConst.ACCESS_KEY_SECRET)
+                .accessKeyId(accessKeyId)
+                .accessKeySecret(accessKeySecret)
                 // .securityToken(System.getenv("ALIBABA_CLOUD_SECURITY_TOKEN")) // use STS
                 // token
                 .build());

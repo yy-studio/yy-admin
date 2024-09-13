@@ -1,5 +1,6 @@
 package com.yystudio.base.module.support.dict.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
@@ -193,5 +194,11 @@ public class DictService {
         return ResponseDTO.ok(pageResult);
     }
 
-
+    public List<DictValueVO> queryTabBarList() {
+        LambdaQueryWrapper<DictValueEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(DictValueEntity::getValueCode, "tb10");
+        queryWrapper.orderByAsc(DictValueEntity::getSort);
+        List<DictValueEntity> dictValueEntityList = dictValueDao.selectList(queryWrapper);
+        return SmartBeanUtil.copyList(dictValueEntityList, DictValueVO.class);
+    }
 }

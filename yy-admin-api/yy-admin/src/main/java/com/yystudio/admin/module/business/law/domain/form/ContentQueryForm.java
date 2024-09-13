@@ -31,4 +31,7 @@ public class ContentQueryForm extends PageParam{
     @Schema(description = "分类")
     private String categoryId;
 
+    @Schema(description = "状态（1:发布，0:草稿）")
+    private Integer status;
+
 }

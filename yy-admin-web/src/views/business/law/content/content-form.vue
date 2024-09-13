@@ -35,7 +35,8 @@
         <SmartWangeditor ref="contentRef" :modelValue="form.content" :height="300" />
       </a-form-item>
       <a-form-item label="标签" name="tags">
-        <a-input style="width: 100%" v-model:value="form.tags" placeholder="标签" />
+        <a-input style="width: 100%" v-model:value="form.tags" placeholder="多个标签使用半角逗号分隔，除半角逗号以外，不允许输入其他标点符号"
+          @input="filterInput" />
       </a-form-item>
 
     </a-form>
@@ -71,6 +72,10 @@ function show(rowData) {
   Object.assign(form, formDefault);
   if (rowData && !_.isEmpty(rowData)) {
     Object.assign(form, rowData);
+
+    if (rowData.categoryId && rowData.categoryId.length > 0) {
+      form.categoryId = rowData.categoryId[0].valueCode;
+    }
   }
   visibleFlag.value = true;
   nextTick(() => {
@@ -107,6 +112,8 @@ const rules = {
   type: [{ required: true, message: '付费类型 必选' }],
   categoryId: [{ required: true, message: '文章分类 必选' }],
   content: [{ required: true, message: '内容正文 必填' }],
+  coverImage: [{ required: true, message: '封面图片 必填' }],
+  tags: [{ required: true, message: '标签 必填' }],
 };
 
 // 点击确定，验证表单
@@ -124,6 +131,7 @@ async function onSubmit() {
 async function save() {
   SmartLoading.show();
   try {
+
     if (form.id) {
       await contentApi.update(form);
     } else {
@@ -141,6 +149,11 @@ async function save() {
 
 function imageChange(fileList) {
   form.coverImage = fileList;
+}
+
+function filterInput(event) {
+  const regex = /[^\u4e00-\u9fa5a-zA-Z0-9,]/g; // Regex to allow only Chinese characters, English letters, digits, and half-width commas
+  form.tags = event.target.value.replace(regex, '');
 }
 
 defineExpose({

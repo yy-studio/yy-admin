@@ -8,6 +8,7 @@
         *
         FROM t_content
         <where>
+            deleted_flag = 0
             <!--关键字查询-->
             <if test="queryForm.keywords != null and queryForm.keywords != ''">
                 AND ( INSTR(t_content.title,#{queryForm.keywords})
@@ -29,6 +30,7 @@
             <if test="queryForm.categoryId != null">
                 AND t_content.category_id = #{queryForm.categoryId}
             </if>
+            order by t_content.create_time desc
         </where>
     </select>
 
@@ -65,5 +67,50 @@
         update t_content set status = 0
         where id = #{id}
     </update>
+    <update id="updateViews">
+        update t_content set views = views + 1
+        where id = #{id}
+    </update>
+    <update id="updateLikes">
+        update t_content set likes = likes + 1
+        where id = #{id}
+    </update>
+    <update id="updateCollections">
+        update t_content set collections = collections + 1
+        where id = #{id}
+    </update>
+
+
+    <!-- APP分页查询 -->
+    <select id="queryAppPage" resultType="com.yystudio.admin.module.business.law.domain.vo.ContentVO">
+        SELECT
+        id, title, subtitle, type, category_id, user_id, cover_image, tags, status, deleted_flag, views, likes, collections, create_time, update_time
+        FROM t_content
+        <where>
+            deleted_flag = 0 and status = 1
+            <!--关键字查询-->
+            <if test="queryForm.keywords != null and queryForm.keywords != ''">
+                AND ( INSTR(t_content.title,#{queryForm.keywords})
+                OR INSTR(t_content.subtitle,#{queryForm.keywords})
+                )
+            </if>
+            <!--类型-->
+            <if test="queryForm.type != null">
+                AND t_content.type = #{queryForm.type}
+            </if>
+            <!--创建时间-->
+            <if test="queryForm.createTimeBegin != null">
+                AND DATE_FORMAT(t_content.create_time, '%Y-%m-%d') &gt;= #{queryForm.createTimeBegin}
+            </if>
+            <if test="queryForm.createTimeEnd != null">
+                AND DATE_FORMAT(t_content.create_time, '%Y-%m-%d') &lt;= #{queryForm.createTimeEnd}
+            </if>
+            <!--分类-->
+            <if test="queryForm.categoryId != null">
+                AND t_content.category_id = #{queryForm.categoryId}
+            </if>
+            order by t_content.create_time desc
+        </where>
+    </select>
 
 </mapper>

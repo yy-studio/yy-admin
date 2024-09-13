@@ -50,4 +50,27 @@ public interface ContentDao extends BaseMapper<ContentEntity> {
      * 下线
      */
     void updateOffLine(Long id);
+    /**
+     * APP分页 查询
+     *
+     * @param page
+     * @param queryForm
+     * @return
+     */
+    List<ContentVO> queryAppPage(Page page, @Param("queryForm") ContentQueryForm queryForm);
+
+    /**
+     * 更新阅读量
+     */
+    void updateViews(Long id);
+
+    /**
+     * 更新点赞量
+     */
+    void updateLikes(Long id);
+
+    /**
+     * 更新收藏量
+     */
+    void updateCollections(Long id);
 }

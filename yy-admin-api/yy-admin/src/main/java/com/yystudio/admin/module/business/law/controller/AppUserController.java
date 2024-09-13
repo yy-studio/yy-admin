@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
- * 用户表 Controller
+ * APP用户接口 Controller
  *
  * @Author yy
  * @Date 2024-08-24 16:07:47
@@ -37,7 +37,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@Tag(name = "APP用户")
+@Tag(name = "APP用户接口")
 public class AppUserController {
 
     @Resource

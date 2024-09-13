@@ -35,7 +35,7 @@ public class ContentEntity {
     private String subtitle;
 
     /**
-     * 类型
+     * 类型（0:免费，1:付费）
      */
     private Integer type;
 

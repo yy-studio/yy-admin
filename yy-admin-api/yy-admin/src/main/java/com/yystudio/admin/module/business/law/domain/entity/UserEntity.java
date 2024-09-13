@@ -85,6 +85,16 @@ public class UserEntity {
     private Integer paid;
 
     /**
+     * 订阅剩余次数
+     */
+    private Integer remainingTimes;
+
+    /**
+     * 订阅截止时间
+     */
+    private LocalDateTime subscriptionDeadline;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

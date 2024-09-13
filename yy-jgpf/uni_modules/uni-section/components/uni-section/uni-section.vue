@@ -134,7 +134,7 @@
 
         &.square {
           width: 8px;
-          height: 8px;
+          height: 36px;
         }
       }
 

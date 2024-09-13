@@ -98,7 +98,8 @@ async function register() {
 
       const res = await loginApi.userRegister(loginForm);
 
-      uni.showToast({ title: registerType.value == 1 ? '注册成功，请验证手机号' : '注册成功，请验证邮箱'});
+      uni.showToast({ title: registerType.value == 1 ? '注册成功，请验证手机号' : '注册成功，请验证邮箱',
+				position: 'bottom',});
 
       uni.navigateTo({ url: '/pages/my/verifyCode/verifyCode?registerType=' + registerType.value + '&mobile=' + loginForm.mobile + '&email=' + loginForm.email });
     } catch (e) {

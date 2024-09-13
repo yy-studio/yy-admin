@@ -73,5 +73,10 @@
         SET password = #{password}
         WHERE id = #{id}
     </update>
+    <update id="updateRemainingTimes">
+        UPDATE t_user
+        SET remaining_times = remaining_times - 1
+        WHERE id = #{id}
+    </update>
 
 </mapper>

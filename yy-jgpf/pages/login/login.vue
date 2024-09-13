@@ -134,6 +134,7 @@ async function login() {
 			uni.showToast({
 				icon: 'none',
 				title: '请输入密码',
+				position: 'bottom',
 			});
 			return;
 		}
@@ -143,6 +144,7 @@ async function login() {
 				uni.showToast({
 					icon: 'none',
 					title: '请输入有效的手机号码',
+				position: 'bottom',
 				});
 				return;
 		}
@@ -150,6 +152,7 @@ async function login() {
 			uni.showToast({
 				icon: 'none',
 				title: '请输入验证码',
+				position: 'bottom',
 			});
 			return;
 		}
@@ -165,7 +168,8 @@ async function login() {
 		}
 		
 
-		uni.showToast({ title: '登录成功' });
+		uni.showToast({ title: '登录成功',
+				position: 'bottom', });
 		//更新用户信息到 pinia
 		useUserStore().setUserLoginInfo(res.data);
 
@@ -210,11 +214,11 @@ async function  getCode() {
 
 	if (!regular.mobilePattern.test(form.mobile)){
 		
-			uni.showToast({
-				icon: 'none',
-				title: '请输入有效的手机号码',
-			});
-			return;
+		uni.showToast({
+			icon: 'none',
+			title: '请输入有效的手机号码',
+		});
+		return;
 	}
 	
 	console.log('getcode...' + getCodeText.value)
@@ -235,6 +239,7 @@ async function  getCode() {
 		}
 	} catch (e) {
 
+	  getCodeText.value = '获取验证码';
 	  smartSentry.captureError(e);
 	}
 }

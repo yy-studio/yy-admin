@@ -28,7 +28,7 @@ public class ContentVO {
     @Schema(description = "副标题")
     private String subtitle;
 
-    @Schema(description = "类型")
+    @Schema(description = "类型（0:免费，1:付费）")
     private Integer type;
 
     @Schema(description = "分类ID CONTENT_CATEGORY")

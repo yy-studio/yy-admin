@@ -61,16 +61,23 @@ export const useUserStore = defineStore({
   actions: {
     logout() {
       this.token = null;
+	  
       this.setUserLoginInfo(defaultUserInfo);
-      uni.removeStorage(USER_TOKEN);
+      uni.removeStorageSync(USER_TOKEN);
     },
     clearUserLoginInfo() {
       this.setUserLoginInfo(defaultUserInfo);
-      uni.removeStorage(USER_TOKEN);
+      uni.removeStorageSync(USER_TOKEN);
     },
     async getLoginInfo() {
-      let res = await loginApi.getLoginInfo();
-      this.setUserLoginInfo(res.data);
+		try{
+			
+			let res = await loginApi.getLoginInfo();
+			console.log(res.data);
+			this.setUserLoginInfo(res.data);
+		} catch (e) {
+			console.error(e)
+		}
     },
     //设置登录信息
     setUserLoginInfo(data) {

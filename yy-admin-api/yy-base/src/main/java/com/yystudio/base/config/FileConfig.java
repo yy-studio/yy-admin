@@ -44,10 +44,10 @@ public class FileConfig implements WebMvcConfigurer {
     @Value("${file.storage.cloud.bucket-name}")
     private String bucketName;
 
-    @Value("${file.storage.cloud.access-key}")
+    @Value("${YY_ALIBABA_CLOUD_ACCESS_KEY_ID:#{null}}")
     private String accessKey;
 
-    @Value("${file.storage.cloud.secret-key}")
+    @Value("${YY_ALIBABA_CLOUD_ACCESS_KEY_SECRET:#{null}}")
     private String secretKey;
 
     @Value("${file.storage.cloud.private-url-expire-seconds}")

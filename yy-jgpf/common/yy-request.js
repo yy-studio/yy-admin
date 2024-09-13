@@ -32,14 +32,16 @@ function handleResponse(response, resolve, reject) {
       uni.showToast({
         title: res.msg,
         icon: 'none',
+		position: 'bottom',
       });
       useUserStore().clearUserLoginInfo();
-      uni.navigateTo({ url: '/pages/login/login' });
+      // uni.navigateTo({ url: '/pages/login/login' });
     }
 
     uni.showToast({
       title: res.msg,
       icon: 'none',
+	  position: 'bottom',
     });
     reject(response);
   } else {

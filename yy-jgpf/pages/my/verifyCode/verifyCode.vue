@@ -88,6 +88,7 @@
 				  uni.showToast({
 					title: '验证码不能为空',
 					icon: 'none',
+					position: 'bottom',
 				  });
 				  return;
 				}
