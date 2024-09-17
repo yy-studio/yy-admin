@@ -139,4 +139,7 @@ public class UserService {
         return ResponseDTO.ok();
     }
 
+    public void updateAvatar(Long userId, String fileUrl) {
+        userDao.updateAvatar(userId, fileUrl);
+    }
 }

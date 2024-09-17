@@ -1,16 +1,15 @@
 package com.yystudio.admin.module.business.law.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.yystudio.admin.module.business.law.dao.ContentCollectDao;
 import com.yystudio.admin.module.business.law.dao.ContentDao;
 import com.yystudio.admin.module.business.law.dao.ReadingRecordDao;
 import com.yystudio.admin.module.business.law.dao.UserDao;
+import com.yystudio.admin.module.business.law.domain.entity.ContentCollectEntity;
 import com.yystudio.admin.module.business.law.domain.entity.ContentEntity;
 import com.yystudio.admin.module.business.law.domain.entity.ReadingRecordEntity;
 import com.yystudio.admin.module.business.law.domain.entity.UserEntity;
-import com.yystudio.admin.module.business.law.domain.form.ContentAddForm;
-import com.yystudio.admin.module.business.law.domain.form.ContentQueryForm;
-import com.yystudio.admin.module.business.law.domain.form.ContentUpdateForm;
-import com.yystudio.admin.module.business.law.domain.form.ReadingRecordQueryForm;
+import com.yystudio.admin.module.business.law.domain.form.*;
 import com.yystudio.admin.module.business.law.domain.vo.AppContentDetailVO;
 import com.yystudio.admin.module.business.law.domain.vo.ContentDetailVO;
 import com.yystudio.admin.module.business.law.domain.vo.ContentVO;
@@ -33,6 +32,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 内容表 Service
@@ -53,6 +53,9 @@ public class ContentService {
 
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private ContentCollectDao contentCollectDao;
     /**
      * 分页查询
      *
@@ -231,6 +234,21 @@ public class ContentService {
         readingRecordEntity.setContentId(contentId);
         readingRecordEntity.setReadType(readType);
         readingRecordDao.insert(readingRecordEntity);
+    }
+
+    public ResponseDTO<String> collect(@Valid ContentCollectForm addForm) {
+        // 先判断是否已经收藏
+        List<ContentCollectEntity> contentCollectList = contentCollectDao.selectList(
+                new LambdaQueryWrapper<ContentCollectEntity>()
+                        .eq(ContentCollectEntity::getContentId, addForm.getContentId())
+                        .eq(ContentCollectEntity::getUserId, addForm.getUserId())
+        );
+        if (CollectionUtils.isNotEmpty(contentCollectList)) {
+            return ResponseDTO.ok("已收藏");
+        }
+        contentCollectDao.insert(SmartBeanUtil.copy(addForm, ContentCollectEntity.class));
+        contentDao.updateCollections(addForm.getContentId());
+        return ResponseDTO.ok("收藏成功");
     }
 //
 //    public ResponseDTO<AppContentDetailVO> detailForApp(Long id) {

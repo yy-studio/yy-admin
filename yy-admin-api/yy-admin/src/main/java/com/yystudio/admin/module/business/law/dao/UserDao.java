@@ -45,5 +45,7 @@ public interface UserDao extends BaseMapper<UserEntity> {
 
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 
-    void updateRemainingTimes(Long userId);
+    void updateRemainingTimes(@Param("id")Long userId);
+
+    void updateAvatar(@Param("id")Long userId, @Param("avatar")String fileUrl);
 }

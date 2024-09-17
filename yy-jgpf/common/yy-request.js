@@ -10,7 +10,9 @@
 import { USER_TOKEN } from '@/common/local-storage-key-const';
 import { useUserStore } from '@/store/user';
 
-const baseUrl = 'http://127.0.0.1:1024';
+// http://192.168.1.107:1024/
+// const baseUrl = 'http://127.0.0.1:1024';
+const baseUrl = 'http://192.168.1.107:1024';
 
 function getUserToken() {
   let token = uni.getStorageSync(USER_TOKEN);
@@ -32,7 +34,7 @@ function handleResponse(response, resolve, reject) {
       uni.showToast({
         title: res.msg,
         icon: 'none',
-		position: 'bottom',
+        position: 'bottom',
       });
       useUserStore().clearUserLoginInfo();
       // uni.navigateTo({ url: '/pages/login/login' });
@@ -41,7 +43,7 @@ function handleResponse(response, resolve, reject) {
     uni.showToast({
       title: res.msg,
       icon: 'none',
-	  position: 'bottom',
+      position: 'bottom',
     });
     reject(response);
   } else {
@@ -91,7 +93,7 @@ export const postRequest = (url, data) => {
 export const uploadRequest = function (filePath, folder) {
   return new Promise((resolve, reject) => {
     uni.uploadFile({
-      url: baseUrl + '/support/file/upload',
+      url: baseUrl + '/app/file/upload',
       filePath,
       header: {
         'x-access-token': getUserToken(),

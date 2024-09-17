@@ -84,7 +84,7 @@ export const useUserStore = defineStore({
       // 用户基本信息
       this.token = data.token;
 		this.id = data.id;
-		this.username = data.username;
+		this.username = data.userName;
 		this.mobile = data.mobile;
 		this.email = data.email;
 		this.avatar = data.avatar;

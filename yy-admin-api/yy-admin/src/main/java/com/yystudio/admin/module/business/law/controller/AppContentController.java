@@ -1,6 +1,7 @@
 package com.yystudio.admin.module.business.law.controller;
 
 import com.yystudio.admin.module.business.law.domain.form.ContentAddForm;
+import com.yystudio.admin.module.business.law.domain.form.ContentCollectForm;
 import com.yystudio.admin.module.business.law.domain.form.ContentQueryForm;
 import com.yystudio.admin.module.business.law.domain.form.ContentUpdateForm;
 import com.yystudio.admin.module.business.law.domain.vo.AppContentDetailVO;
@@ -48,5 +49,16 @@ public class AppContentController {
     @NoNeedLogin
     public ResponseDTO<AppContentDetailVO> detail(@PathVariable Long id) {
         return contentService.detailForApp(id);
+    }
+
+    @Operation(summary = "收藏")
+    @PostMapping("/content/collect")
+    public ResponseDTO<String> collect(@RequestBody @Valid ContentCollectForm addForm) {
+        RequestUser requestUser = SmartRequestUtil.getRequestUser();
+        if(requestUser == null) {
+            return ResponseDTO.userErrorParam("请先登录");
+        }
+        addForm.setUserId(requestUser.getUserId());
+        return contentService.collect(addForm);
     }
 }

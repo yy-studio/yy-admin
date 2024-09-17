@@ -23,9 +23,9 @@ public enum FileFolderTypeEnum implements BaseEnum {
     COMMON(1, FileFolderTypeEnum.FOLDER_PUBLIC + "/common/", "通用"),
 
     /**
-     * 公告
+     * APP
      */
-    NOTICE(2, FileFolderTypeEnum.FOLDER_PUBLIC + "/notice/", "公告"),
+    USER_AVATAR(2, FileFolderTypeEnum.FOLDER_PUBLIC + "/app/avatar/", "用户头像"),
 
     /**
      * 帮助中心

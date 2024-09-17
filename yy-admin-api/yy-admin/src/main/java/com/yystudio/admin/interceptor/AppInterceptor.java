@@ -78,13 +78,14 @@ public class AppInterceptor implements HandlerInterceptor {
 
             // --------------- 第二步： 校验 登录 ---------------
 
-            Method method = ((HandlerMethod) handler).getMethod();
-            NoNeedLogin noNeedLogin = ((HandlerMethod) handler).getMethodAnnotation(NoNeedLogin.class);
-            if (noNeedLogin != null) {
-                return true;
-            }
 
             if (requestAppUser == null) {
+
+                NoNeedLogin noNeedLogin = ((HandlerMethod) handler).getMethodAnnotation(NoNeedLogin.class);
+                if (noNeedLogin != null) {
+                    return true;
+                }
+
                 SmartResponseUtil.write(response, ResponseDTO.error(UserErrorCode.LOGIN_STATE_INVALID));
                 return false;
             }
@@ -97,6 +98,7 @@ public class AppInterceptor implements HandlerInterceptor {
             }
 
             // --------------- 第三步： 校验 权限 ---------------
+            Method method = ((HandlerMethod) handler).getMethod();
 
             SmartRequestUtil.setRequestUser(requestAppUser);
             if (SaStrategy.instance.isAnnotationPresent.apply(method, SaIgnore.class)) {

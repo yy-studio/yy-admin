@@ -16,11 +16,17 @@ export const contentApi = {
   queryPage: (param) => {
     return postRequest('/app/content/queryPage', param);
   },
-  
+
   /**
    * 获取文章详情 @author yy
    */
   getDetail: (id) => {
     return getRequest('/app/content/detail/' + id);
+  },
+  /**
+   * 收藏文章 @author yy
+   */
+  collect: (param) => {
+    return postRequest('/app/content/collect', param);
   },
 };

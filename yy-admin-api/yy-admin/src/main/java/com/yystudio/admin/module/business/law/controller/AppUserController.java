@@ -5,24 +5,30 @@ import cn.hutool.extra.servlet.ServletUtil;
 import com.yystudio.admin.module.business.law.constant.UserStatusEnum;
 import com.yystudio.admin.module.business.law.constant.YesNoEnum;
 import com.yystudio.admin.module.business.law.domain.RequestAppUser;
-import com.yystudio.admin.module.business.law.domain.form.AppUserLoginForm;
-import com.yystudio.admin.module.business.law.domain.form.CodeForm;
-import com.yystudio.admin.module.business.law.domain.form.UserAddForm;
-import com.yystudio.admin.module.business.law.domain.form.VerifyCodeForm;
+import com.yystudio.admin.module.business.law.domain.form.*;
 import com.yystudio.admin.module.business.law.domain.vo.AppUserLoginResultVO;
+import com.yystudio.admin.module.business.law.domain.vo.ContentCollectVO;
+import com.yystudio.admin.module.business.law.domain.vo.ReadingRecordVO;
 import com.yystudio.admin.module.business.law.service.AppUserLoginService;
+import com.yystudio.admin.module.business.law.service.ContentCollectService;
+import com.yystudio.admin.module.business.law.service.ReadingRecordService;
 import com.yystudio.admin.module.business.law.service.UserService;
 import com.yystudio.admin.module.system.employee.service.EmployeeService;
 import com.yystudio.base.common.annoation.NoNeedLogin;
 import com.yystudio.base.common.constant.RequestHeaderConst;
+import com.yystudio.base.common.domain.PageResult;
+import com.yystudio.base.common.domain.RequestUser;
 import com.yystudio.base.common.domain.ResponseDTO;
 import com.yystudio.base.common.enumeration.UserTypeEnum;
 import com.yystudio.base.common.util.SmartRequestUtil;
 import com.yystudio.base.constant.RedisKeyConst;
+import com.yystudio.base.module.support.file.domain.vo.FileUploadVO;
+import com.yystudio.base.module.support.file.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +51,15 @@ public class AppUserController {
 
     @Resource
     private AppUserLoginService appUserLoginService;
+
+    @Resource
+    private FileService fileService;
+
+    @Resource
+    private ReadingRecordService readingRecordService;
+
+    @Resource
+    private ContentCollectService contentCollectService;
 
     @Operation(summary = "注册 @author yy")
     @PostMapping("/app/user/register")
@@ -116,5 +131,31 @@ public class AppUserController {
         String tokenValue = StpUtil.getTokenValue();
         loginResult.setToken(tokenValue);
         return ResponseDTO.ok(loginResult);
+    }
+
+    @Operation(summary = "文件上传 @author 胡克")
+    @PostMapping("/app/file/upload")
+    public ResponseDTO<FileUploadVO> upload(@RequestParam MultipartFile file, @RequestParam Integer folder) {
+        RequestUser requestUser = SmartRequestUtil.getRequestUser();
+        ResponseDTO<FileUploadVO> fileRes = fileService.fileUpload(file, folder, requestUser);
+        userService.updateAvatar(requestUser.getUserId(), fileRes.getData().getFileUrl());
+
+        return fileRes;
+    }
+
+    @Operation(summary = "阅读记录 @author yy")
+    @PostMapping("/app/readingRecord")
+    public ResponseDTO<PageResult<ReadingRecordVO>> queryPage(@RequestBody @Valid ReadingRecordQueryForm queryForm) {
+        RequestAppUser requestAppUser = (RequestAppUser)SmartRequestUtil.getRequestUser();
+        queryForm.setUserId(requestAppUser.getUserId());
+        return ResponseDTO.ok(readingRecordService.queryPage(queryForm));
+    }
+
+    @Operation(summary = "收藏记录")
+    @PostMapping("/app/collectRecord")
+    public ResponseDTO<PageResult<ContentCollectVO>> queryCollectPage(@RequestBody @Valid CollectRecordQueryForm queryForm) {
+        RequestAppUser requestAppUser = (RequestAppUser)SmartRequestUtil.getRequestUser();
+        queryForm.setUserId(requestAppUser.getUserId());
+        return ResponseDTO.ok(contentCollectService.queryCollectPage(queryForm));
     }
 }

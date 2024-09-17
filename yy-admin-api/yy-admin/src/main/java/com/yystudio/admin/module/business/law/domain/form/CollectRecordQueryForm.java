@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class ReadingRecordQueryForm extends PageParam {
+public class CollectRecordQueryForm extends PageParam {
     /**
      * 用户ID
      */
@@ -18,9 +18,4 @@ public class ReadingRecordQueryForm extends PageParam {
     @Schema(description = "内容ID")
     private Long contentId;
 
-    /**
-     * 阅读类型（1付费阅读，0免费阅读）
-     */
-    @Schema(description = "阅读类型（1付费阅读，0免费阅读）")
-    private Integer readType;
 }

@@ -356,7 +356,8 @@ public class AppUserLoginService {
     public AppUserLoginResultVO getLoginResult(RequestAppUser requestAppUser) {
 
         // 基础信息
-        AppUserLoginResultVO loginResultVO = SmartBeanUtil.copy(requestAppUser, AppUserLoginResultVO.class);
+        UserEntity userEntity = userDao.selectById(requestAppUser.getUserId());
+        AppUserLoginResultVO loginResultVO = getLoginInfo(userEntity, requestAppUser.getIp(), requestAppUser.getUserAgent(), requestAppUser.getLoginDevice());
 
         // 上次登录信息
         LoginLogVO loginLogVO = loginLogService.queryLastByUserId(requestAppUser.getUserId(), SmartEnumUtil.getEnumByValue(requestAppUser.getType(), UserTypeEnum.class), LoginLogResultEnum.LOGIN_SUCCESS);

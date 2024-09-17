@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class ReadingRecordVO {
+public class ContentCollectVO {
     private Long id;
 
     /**
@@ -23,22 +23,6 @@ public class ReadingRecordVO {
      * 内容ID
      */
     private Long contentId;
-
-    /**
-     * 阅读开始时间
-     */
-    private java.sql.Timestamp readTime;
-
-    /**
-     * 阅读耗时（秒）
-     */
-    private Integer readDuration;
-
-    /**
-     * 阅读进度（0-100）
-     */
-    private Integer progress;
-
 
     @Schema(description = "标题")
     private String title;

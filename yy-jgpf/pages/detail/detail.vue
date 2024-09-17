@@ -56,10 +56,12 @@
 
 <script>
 import { contentApi } from '@/api/content-api';
+import { USER_TOKEN } from '@/common/local-storage-key-const.js';
 export default {
   data() {
     return {
       article: {
+        id: '',
         title: '',
         categoryId: '',
         image: '',
@@ -71,7 +73,8 @@ export default {
         readTime: 0,
         displayType: 1,
         tags: [],
-        type: 'blog' // 文章类型，用于设置颜色
+        type: 'blog', // 文章类型，用于设置颜色
+        collected: false,
       },
     };
   },
@@ -91,6 +94,24 @@ export default {
   //     return Math.ceil(this.wordCount / 200);
   //   }
   // },
+  onNavigationBarButtonTap(e) {
+    console.log(e)
+    let showTitle = "";
+    if (e.type === "share") {
+      showTitle = "分享按钮"
+    } else if (e.type === "favorite") {
+      this.collect();
+      showTitle = "收藏按钮";
+      // const currentWebview = uni.getCurrentWebview();
+      // currentWebview.setTitleNViewButtonStyle(e.index, { //h5端会报错
+      //   type: "share"
+      // });
+    }
+    uni.showToast({
+      title: "你点了" + showTitle,
+      icon: "none"
+    })
+  },
   methods: {
 
     async getDetail(id) {
@@ -100,6 +121,7 @@ export default {
         let responseData = res.data;
         // 将接口返回的数据赋值给页面变量
         this.article = {
+          id: responseData.id,
           title: responseData.title,
           categoryId: responseData.categoryId[0].valueCode,
           image: responseData.coverImage[0].fileUrl,
@@ -113,7 +135,7 @@ export default {
           tags: responseData.tags.split(','),
           free: responseData.type === 1 ? false : true,
         };
-        console.log(this.article)
+        // console.log(this.article)
       } catch (e) {
         console.error(e)
       }
@@ -123,9 +145,18 @@ export default {
       return new Date(dateString).toLocaleDateString('zh-CN', options);
     },
     toSubscription() {
-      uni.navigateTo({
-        url: "/pages/pay/subscription/subscription"
-      })
+
+      let token = uni.getStorageSync(USER_TOKEN);
+      if (!token) {
+        uni.navigateTo({
+          url: "/pages/login/login"
+        })
+      } else {
+
+        uni.navigateTo({
+          url: "/pages/pay/subscription/subscription"
+        })
+      }
     },
 
     getBackgroundColor() {
@@ -145,6 +176,31 @@ export default {
           return 'background-color: #7B1A71;';
         default:
           return '';
+      }
+    },
+    async collect() {
+
+      try {
+		  let token = uni.getStorageSync(USER_TOKEN);
+		  if (!token) {
+		  	uni.navigateTo({
+		  		url: "/pages/login/login"
+		  	})
+		  }
+
+        let param = {
+          contentId: this.article.id,
+        }
+        const res = await contentApi.collect(param);
+        let responseData = res.data;
+        // console.log(responseData)
+        uni.showToast({
+          title: responseData,
+          icon: "none"
+        });
+        this.article.collected = true;
+      } catch (e) {
+        console.error(e)
       }
     },
   }

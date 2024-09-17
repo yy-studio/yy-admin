@@ -78,5 +78,10 @@
         SET remaining_times = remaining_times - 1
         WHERE id = #{id}
     </update>
+    <update id="updateAvatar">
+        UPDATE t_user
+        SET avatar = #{avatar}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

@@ -1,47 +1,115 @@
 <template>
 	<view class="container">
-		<view class="search-bar">
-			<icon type="search" size="20" />
-			<input class="search-input" v-model="searchQuery" placeholder="Search..." />
-			<button class="cancel-button" @click="cancelSearch">取消</button>
-		</view>
+
+		<uni-search-bar @confirm="search" :focus="true" v-model="searchValue" @blur="blur" @focus="focus" @input="input"
+			@cancel="cancel" @clear="clear">
+		</uni-search-bar>
+		<view class="line-h"></view>
 		<view class="search-history" v-if="!searchResults.length">
-			<text class="history-title">Search History</text>
+			<text class="history-title">历史搜索</text>
 			<view v-for="(item, index) in searchHistory" :key="index" class="history-item" @click="performSearch(item)">
 				{{ item }}
 			</view>
 		</view>
 		<view class="search-results" v-if="searchResults.length">
-			<text class="results-title">Search Results</text>
-			<view v-for="(result, index) in searchResults" :key="index" class="result-item">
-				{{ result }}
-			</view>
+
+			<uni-list :border="false">
+				<uni-list-item ellipsis="1" v-for="(item, index) in searchResults" :key="index" :border="true"
+					:title="item.title" :note="item.tags" :thumb="item.coverImage[0].fileUrl" thumb-size="lg"
+					rightText="" :to="`/pages/detail/detail?id=${item.id}`"  />
+			</uni-list>
 		</view>
 	</view>
 </template>
 
 <script>
+import { contentApi } from '@/api/content-api';
 export default {
 	data() {
 		return {
-			searchQuery: '',
-			searchHistory: ['Example 1', 'Example 2', 'Example 3'],
-			searchResults: []
+			searchValue: '',
+			searchHistory: [],
+			searchResults: [
+				// {
+				// 	title: "",
+				// 	coverImage: [
+				// 		{
+				// 			fileUrl: "",
+				// 		}
+				// 	]
+				// },
+			],
 		};
 	},
+	mounted() {
+		this.loadSearchHistory();
+	},
 	methods: {
-		cancelSearch() {
-			this.searchQuery = '';
-			this.searchResults = [];
+		async search(res) {
+			const query = res.value;
+			this.addToSearchHistory(query);
+
+			try {
+				let itemListParam = {
+					keywords: query,
+					pageNum: 1,
+					pageSize: 10,
+				}
+				const res = await contentApi.queryPage(itemListParam);
+				// console.log(res)
+				this.searchResults = res.data.list;
+
+			} catch (e) {
+
+			}
+		},
+		input(res) {
+			// console.log('----input:', res)
+		},
+		clear(res) {
+			// uni.showToast({
+			// 	title: 'clear事件，清除值为：' + res.value,
+			// 	icon: 'none'
+			// })
+		},
+		blur(res) {
+			// uni.showToast({
+			// 	title: 'blur事件，输入值为：' + res.value,
+			// 	icon: 'none'
+			// })
+		},
+		focus(e) {
+			// uni.showToast({
+			// 	title: 'focus事件，输出值为：' + e.value,
+			// 	icon: 'none'
+			// })
+		},
+		cancel(res) {
+			uni.navigateBack();
 		},
 		performSearch(query) {
-			this.searchQuery = query;
-			// Simulate search results
-			this.searchResults = ['Result 1', 'Result 2', 'Result 3'];
-			if (!this.searchHistory.includes(query)) {
-				this.searchHistory.push(query);
+			this.searchValue = query;
+			//触发搜索
+			this.search({
+				value: query
+			});
+			// this.searchResults = [query + ' Result 1', query + ' Result 2', query + ' Result 3'];
+		},
+		loadSearchHistory() {
+			const history = uni.getStorageSync('searchHistory');
+			if (history) {
+				this.searchHistory = JSON.parse(history);
 			}
-		}
+		},
+		addToSearchHistory(query) {
+			if (!this.searchHistory.includes(query)) {
+				this.searchHistory.unshift(query);
+				if (this.searchHistory.length > 10) {
+					this.searchHistory.pop();
+				}
+				uni.setStorageSync('searchHistory', JSON.stringify(this.searchHistory));
+			}
+		},
 	},
 	watch: {
 		searchQuery(newQuery) {
@@ -55,50 +123,39 @@ export default {
 
 <style scoped>
 .container {
-	padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: calc(5px + env(safe-area-inset-top));
 }
 
-.search-bar {
-	display: flex;
-	align-items: center;
-	margin-bottom: 16px;
-}
 
-.search-icon {
-	margin-right: 8px;
-}
-
-.search-input {
-	flex: 1;
-	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
-.cancel-button {
-	margin-left: 8px;
-	padding: 8px 16px;
-	background-color: #f0f0f0;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
+.line-h {
+	margin-top: 4rpx;
+	height: 2rpx;
+	background-color: #cccccc;
 }
 
 .search-history,
 .search-results {
-	margin-top: 16px;
+	margin: 26rpx 16rpx;
+
 }
 
-.history-title,
-.results-title {
-	font-weight: bold;
-	margin-bottom: 8px;
+.history-title {
+	margin-bottom: 18rpx;
+	color: #555555;
 }
 
-.history-item,
+.history-item {
+	padding: 16rpx;
+	cursor: pointer;
+	color: #aaaaaa;
+}
+
 .result-item {
-	padding: 8px;
-	border-bottom: 1px solid #ccc;
+	padding: 16rpx;
 	cursor: pointer;
 }
 </style>

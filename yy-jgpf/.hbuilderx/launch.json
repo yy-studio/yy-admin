@@ -13,12 +13,16 @@
             "type" : "uniCloud"
         },
         {
-            "playground" : "standard",
+            "playground" : "custom",
             "type" : "uni-app:app-ios_simulator"
         },
         {
             "playground" : "custom",
             "type" : "uni-app:app-ios"
+        },
+        {
+            "playground" : "custom",
+            "type" : "uni-app:app-android"
         }
     ]
 }

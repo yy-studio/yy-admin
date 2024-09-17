@@ -63,6 +63,9 @@ public class RequestAppUser implements RequestUser {
     @Schema(description = "请求user-agent")
     private String userAgent;
 
+    @Schema(description = "登录类型")
+    private String loginDevice;
+
     @Override
     public Long getUserId() {
         return id;
