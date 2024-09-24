@@ -4,7 +4,7 @@
 
     <groupId>com.yystudio</groupId>
     <artifactId>yy-parent</artifactId>
-    <version>3.0.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>yy-parent</name>
@@ -364,7 +364,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.name}-${profiles.active}-${project.version}</finalName>
+        <finalName>${project.name}</finalName>
         <resources>
             <resource>
                 <filtering>false</filtering>
