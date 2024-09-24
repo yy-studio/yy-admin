@@ -27,6 +27,7 @@ import com.yystudio.base.common.util.SmartEnumUtil;
 import com.yystudio.base.common.util.SmartIpUtil;
 import com.yystudio.base.constant.LoginDeviceEnum;
 import com.yystudio.base.constant.RedisKeyConst;
+import com.yystudio.base.module.support.email.EmailService;
 import com.yystudio.base.module.support.loginlog.LoginLogResultEnum;
 import com.yystudio.base.module.support.loginlog.LoginLogService;
 import com.yystudio.base.module.support.loginlog.domain.LoginLogEntity;
@@ -35,6 +36,7 @@ import com.yystudio.base.module.support.redis.RedisService;
 import com.yystudio.base.module.support.sms.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -72,6 +74,9 @@ public class AppUserLoginService {
     @Resource
     private SmsService smsService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Resource
     private RedisService redisService;
 
@@ -90,9 +95,9 @@ public class AppUserLoginService {
             res = smsService.sendVerificationCode(codeForm.getMobile(), code);
             redisKey = preKey + codeForm.getMobile();
         } else if(codeForm.getRegisterType() == 2) {
-            // TODO 发送邮箱验证码
+            // 发送邮箱验证码
+            res = emailService.sendVerificationCode(codeForm.getEmail(), code);
             redisKey = RedisKeyConst.Support.EMAIL_REGISTER + codeForm.getEmail();
-            res = true;
         }
         if(res){
             // 保存验证码
@@ -151,9 +156,9 @@ public class AppUserLoginService {
             return ResponseDTO.error(UserErrorCode.USER_NOT_EXIST);
         }
         if (userEntity.getStatus().equals(UserStatusEnum.UN_ACTIVE.getValue())){
-            // 记录登录失败
+            // 记录登录
             saveLoginLog(userEntity, ip, userAgent, "用户未激活", LoginLogResultEnum.LOGIN_FAIL);
-            return ResponseDTO.error(UserErrorCode.USER_UN_ACTIVE);
+//            return ResponseDTO.error(UserErrorCode.USER_UN_ACTIVE);
         }
         if (userEntity.getStatus().equals(UserStatusEnum.CANCEL.getValue())){
             // 记录登录失败

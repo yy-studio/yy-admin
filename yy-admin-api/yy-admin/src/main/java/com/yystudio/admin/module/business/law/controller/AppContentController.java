@@ -1,18 +1,14 @@
 package com.yystudio.admin.module.business.law.controller;
 
-import com.yystudio.admin.module.business.law.domain.form.ContentAddForm;
 import com.yystudio.admin.module.business.law.domain.form.ContentCollectForm;
 import com.yystudio.admin.module.business.law.domain.form.ContentQueryForm;
-import com.yystudio.admin.module.business.law.domain.form.ContentUpdateForm;
 import com.yystudio.admin.module.business.law.domain.vo.AppContentDetailVO;
-import com.yystudio.admin.module.business.law.domain.vo.ContentDetailVO;
 import com.yystudio.admin.module.business.law.domain.vo.ContentVO;
 import com.yystudio.admin.module.business.law.service.ContentService;
 import com.yystudio.base.common.annoation.NoNeedLogin;
 import com.yystudio.base.common.domain.PageResult;
 import com.yystudio.base.common.domain.RequestUser;
 import com.yystudio.base.common.domain.ResponseDTO;
-import com.yystudio.base.common.domain.ValidateList;
 import com.yystudio.base.common.util.SmartRequestUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

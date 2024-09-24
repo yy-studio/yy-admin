@@ -28,9 +28,9 @@ const defaultUserInfo = {
   //真实姓名
   realName: '',
   //微信openid
-  wechatOpenid: '',
+  wechatOpenid: undefined,
   //微博uid
-  weiboUid: '',
+  weiboUid: undefined,
   //总积分
   totalPoints: undefined,
   //状态:1正常,0未激活,-1注销

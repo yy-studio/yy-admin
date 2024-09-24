@@ -56,6 +56,22 @@ spring:
   cache:
     type: caffeine
 
+  # 邮件发送配置
+#  mail:
+#    host: smtp.qiye.aliyun.com
+#    port: 465
+#    username: jgpf@yynomad.com
+#    password: Jiangong@2024#
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#          ssl:
+#            enable: true
+#          timeout: 5000
+
 # tomcat 配置，主要用于 配置 访问日志（便于将来排查错误）
 server:
   tomcat:

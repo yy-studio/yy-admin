@@ -22,8 +22,8 @@ public class EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(toEmail);
-            message.setSubject("Verification Code");
-            message.setText("Your verification code is: " + code);
+            message.setSubject("【建工普法】APP验证码");
+            message.setText("您的验证码为: " + code);
             message.setFrom(fromEmail);
 
             javaMailSender.send(message);

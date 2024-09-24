@@ -1,12 +1,9 @@
 <template>
 	<view class="content">
 		<template v-if="username">
-			<view class="upload-avatar">
-				<uni-file-picker limit="1" :del-icon="false" disable-preview :imageStyles="imageStyles"
-					v-model="avatarFile" @select="onSelectFile" file-mediatype="image"></uni-file-picker>
-			</view>
+			<image class="logo" :src="avatarUrl" @click="toUserDetail"></image>
 			<view class="text-area">
-				<text class="title">{{ username }}</text>
+				<text class="title" @click="toUserDetail">{{ username }}</text>
 			</view>
 		</template>
 		<template v-else>
@@ -46,6 +43,7 @@ export default {
 		return {
 			title: '登录/注册',
 			username: '',
+			avatarUrl: '',
 			subIcon: {
 				color: '#F99323',
 				size: '22',
@@ -79,8 +77,8 @@ export default {
 	},
 	onShow() {
 		const userStore = useUserStore();
-		console.log(userStore.username);
 		this.username = userStore.username;
+		this.avatarUrl = userStore.avatar;
 		let avatar = {
 			url: userStore.avatar,
 		}
@@ -90,6 +88,11 @@ export default {
 		toLogin() {
 			uni.navigateTo({
 				url: '/pages/login/login'
+			})
+		},
+		toUserDetail() {
+			uni.navigateTo({
+				url: '/pages/my/userDetail/userDetail'
 			})
 		},
 		// --------------------- 文件 ---------------------
@@ -177,15 +180,15 @@ export default {
 }
 
 .logo {
-	height: 140rpx;
-	width: 140rpx;
+	height: 100rpx;
+	width: 100rpx;
 	padding: 40rpx;
 	margin-top: 100rpx;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 50rpx;
 	background-color: #f0f0f0;
-	border-radius: 10%;
+	border-radius: 50%;
 }
 
 .circle {

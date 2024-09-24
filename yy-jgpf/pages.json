@@ -94,6 +94,27 @@
 			{
 				"navigationBarTitleText" : "收藏文章"
 			}
+		},
+		{
+			"path" : "pages/my/userDetail/userDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "账户设置"
+			}
+		},
+		{
+			"path" : "pages/my/bindMobile/bindMobile",
+			"style" : 
+			{
+				"navigationBarTitleText" : "填写手机号"
+			}
+		},
+		{
+			"path" : "pages/my/changePassword/changePassword",
+			"style" : 
+			{
+				"navigationBarTitleText" : "修改密码"
+			}
 		}
 	],
 	"globalStyle": {

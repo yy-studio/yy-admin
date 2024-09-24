@@ -30,5 +30,7 @@ public class RedisKeyConst {
 
         public static final String SMS_LOGIN = "sms-login:";
 
+        public static final String SMS_BIND = "sms-bind:";
+
     }
 }

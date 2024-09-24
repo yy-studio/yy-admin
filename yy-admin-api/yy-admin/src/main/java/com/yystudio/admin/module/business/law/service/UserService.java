@@ -1,19 +1,20 @@
 package com.yystudio.admin.module.business.law.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.yystudio.admin.module.business.law.constant.UserStatusEnum;
 import com.yystudio.admin.module.business.law.dao.UserDao;
 import com.yystudio.admin.module.business.law.domain.entity.UserEntity;
-import com.yystudio.admin.module.business.law.domain.form.UserAddForm;
-import com.yystudio.admin.module.business.law.domain.form.UserQueryForm;
-import com.yystudio.admin.module.business.law.domain.form.UserUpdateForm;
+import com.yystudio.admin.module.business.law.domain.form.*;
 import com.yystudio.admin.module.business.law.domain.vo.UserVO;
 import java.util.List;
 
+import com.yystudio.admin.module.system.employee.service.EmployeeService;
 import com.yystudio.base.common.util.SmartBeanUtil;
 import com.yystudio.base.common.util.SmartPageUtil;
 import com.yystudio.base.common.domain.ResponseDTO;
 import com.yystudio.base.common.domain.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yystudio.base.constant.RedisKeyConst;
 import com.yystudio.base.module.support.redis.RedisService;
 import com.yystudio.base.module.support.sms.SmsService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -21,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 用户表 Service
@@ -141,5 +143,59 @@ public class UserService {
 
     public void updateAvatar(Long userId, String fileUrl) {
         userDao.updateAvatar(userId, fileUrl);
+    }
+
+    public ResponseDTO<UserVO> detail(Long userId) {
+        UserEntity user = userDao.selectById(userId);
+        if (null == user){
+            return ResponseDTO.userErrorParam("用户不存在");
+        }
+        UserVO userVO = SmartBeanUtil.copy(user, UserVO.class);
+        return ResponseDTO.ok(userVO);
+    }
+
+    public String updateUserName(Long userId, String username) {
+        LambdaUpdateWrapper<UserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(UserEntity::getId, userId);
+        lambdaUpdateWrapper.set(UserEntity::getUsername, username);
+        userDao.update(null, lambdaUpdateWrapper);
+        return "昵称更新成功";
+    }
+
+    public String updateMobile(Long userId, VerifyCodeForm codeForm) {
+        // 校验验证码
+        String redisKey = RedisKeyConst.Support.SMS_REGISTER + codeForm.getMobile();
+
+        String code = redisService.get(redisKey);
+        if (codeForm.getCode().equals(code)){
+            LambdaUpdateWrapper<UserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.eq(UserEntity::getId, userId);
+            lambdaUpdateWrapper.set(UserEntity::getMobile, codeForm.getMobile());
+            userDao.update(null, lambdaUpdateWrapper);
+            return "更新成功";
+        } else {
+            return "验证码错误";
+        }
+    }
+
+    public String updateEmail(Long userId, String email) {
+        // TODO 校验验证码
+        LambdaUpdateWrapper<UserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(UserEntity::getId, userId);
+        lambdaUpdateWrapper.set(UserEntity::getEmail, email);
+        userDao.update(null, lambdaUpdateWrapper);
+        return "更新成功";
+    }
+
+    public ResponseDTO<String> updatePassword(Long userId, @Valid UpdatePasswordForm updatePasswordForm) {
+        UserEntity userEntity = userDao.selectById(userId);
+        if (!(EmployeeService.getEncryptPwd(updatePasswordForm.getOldPassword()).equals(userEntity.getPassword()))){
+            return ResponseDTO.userErrorParam("原密码错误");
+        }
+        LambdaUpdateWrapper<UserEntity> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(UserEntity::getId, userId);
+        lambdaUpdateWrapper.set(UserEntity::getPassword, (EmployeeService.getEncryptPwd(updatePasswordForm.getNewPassword())));
+        userDao.update(null, lambdaUpdateWrapper);
+        return ResponseDTO.ok("密码修改成功");
     }
 }

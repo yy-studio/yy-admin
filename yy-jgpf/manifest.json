@@ -20,7 +20,8 @@
         "modules" : {
             "Camera" : {},
             "FaceID" : {},
-            "VideoPlayer" : {}
+            "VideoPlayer" : {},
+            "Fingerprint" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
