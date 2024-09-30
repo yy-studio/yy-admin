@@ -11,8 +11,8 @@ import { USER_TOKEN } from '@/common/local-storage-key-const';
 import { useUserStore } from '@/store/user';
 
 // http://192.168.1.107:1024/
+// const baseUrl = 'http://8.130.112.158:1024';
 const baseUrl = 'http://127.0.0.1:1024';
-// const baseUrl = 'http://192.168.1.110:1024';
 
 function getUserToken() {
   let token = uni.getStorageSync(USER_TOKEN);
